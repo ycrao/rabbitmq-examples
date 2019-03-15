@@ -41,8 +41,8 @@ apt-get install -y rabbitmq-server
 
 4. `Message Queue` : 消息队列，用于存储还未被消费者消费的消息。
 
-5. `Message` : 由 `Header` 和 `Body` 组成，`Header` 是由生产者添加的各种属性的sender是否被持久化、由哪个 `Message Queue` 接受、优先级是多少等。sender传输的 `APP` 数据。
-sender
+5. `Message` : 由 `Header` 和 `Body` 组成，`Header` 是由生产者添加的各种属性的 `sender` 是否被持久化、由哪个 `Message Queue` 接受、优先级是多少等。sender传输的 `APP` 数据。
+
 6. `Binding` : `Binding` 联系了 `Exchange` 与 `Message Queue` 。`Exchange` 在与多个 `Message Queue` 发生 `Binding` 后会生成一张路由表，路由表中存储着 `Message Queue` 所需消息的限制条件即 `Binding Key` 。当 `Exchange` 收到 `Message` 时会解析其 `Header` 得到 `Routing Key` ，`Exchange` 根据 `Routing Key` 与 `Exchange Type` 将 `Message` 路由到 `Message Queue` 。`Binding Key` 由 `Consumer` 在 `Binding Exchange` 与 `Message Queue` 时指定，而 `Routing Key` 由 `Producer` 发送 `Message` 时指定，两者的匹配方式由 `Exchange Type` 决定。 
 
 7. `Connection` : 连接，对于 `RabbitMQ` 而言，其实就是一个位于客户端和 `Broker` 之间的TCP连接。
@@ -52,6 +52,17 @@ sender
 9. `Command` : `AMQP` 的命令，客户端通过 `Command` 完成与 `AMQP` 服务器的交互来实现自身的逻辑。例如在 `RabbitMQ` 中，客户端可以通过 `publish` 命令发送消息，`txSelect` 开启一个事务，`txCommit` 提交一个事务。
 
 ### 模式简介
+
+`examples` 目录下存放各个模式的演示应用代码，复制 `config.php.example` 配置样例到 `config.php` 文件，自行修改其中的 `RabbitMQ` 配置信息。
+
+```bash
+git clone https://github.com/ycrao/rabbitmq-examples
+cd rabbitmq-examples
+composer install
+cd examples
+cp -r config.php.example config.php
+vim config.php #修改配置
+```
 
 #### 简单模式[Simple Mode]
 
@@ -100,7 +111,7 @@ php send_task.php
 #@terminal 1
 php pulled_consumer.php
 #@terminal 2
-php php producer.php
+php producer.php
 ```
 
 #### 发布/订阅模式[Publish/Subscribe Mode]
@@ -114,10 +125,19 @@ php php producer.php
 
 在 `RabbitMQ` 中,交换器主要有四种类型: `direct`、 `fanout`、 `topic`, `headers`，这种模式下使用的交换器类型是 `fanout` 。
 
+应用场景示例:
+
+一个商城系统需要在管理员上传新的商品图片时，前台系统必须更新图片，日志系统必须记录相应的日志，那么就可以将两个队列绑定到图片上传交换器上，一个用于前台系统刚更新图片，另一个用于日志系统记录日志。
+
 代码示例：参考 `examples/pubsub` 目录下源码，执行下列命令：
 
 ```bash
-
+#@terminal 1
+php subsciber1.php
+#@terminal 2
+php subsciber2.php
+#@terminal 3
+php publisher.php
 ```
 
 #### 路由模式[Routing Mode]
@@ -129,4 +149,17 @@ php php producer.php
 
 上面的路由模式是根据路由 `key` 进行完整的匹配（完全相等才发送消息），这里的通配符模式通俗的来讲就是模糊匹配。
 
-符号"#"表示匹配一个或多个词，符号"*"表示匹配一个词。
+符号 "#" 表示匹配一个或多个词，符号 "*" 表示匹配一个词。
+
+#### 总结
+
+`RabbitMQ` 提供了 `6` 种模式，分别是 `Simple`、 `Worker`（或称 `Work Queue`）、 `Publish/Subscribe`、 `Routing`、 `Topics`、`RPC Request/Reply`。本文档详细讲述了前 `5` 种，并给出代码实现和思路（主动拉取模式属于消费端一种模式，不在此列，一般场景下均为推模式），其中 `Publish/Subscribe`、 `Routing` 与 `Topics` 三种模式可以统一归为 `Exchange` 模式，只是创建时交换机的类型不一样，分别是 `fanout`、 `direct` 与 `topic`。
+
+### 参考资源
+
+- [RabbitMQ官网](https://www.rabbitmq.com/)
+- [php-amqplib](https://github.com/php-amqplib/php-amqplib)
+- [RabbitMQ的几种典型使用场景](https://www.cnblogs.com/luxiaoxun/p/3918054.html)
+- [RabbitMQ详解（三）------RabbitMQ的五种模式](https://www.cnblogs.com/Alva-mu/p/9535396.html)
+- [rabbitmq官方的六种工作模式](https://blog.csdn.net/qq_33040219/article/details/82383127)
+- [RabbitMQ笔记-Exchange 的几种模式](https://www.jianshu.com/p/19af0f40bbde)
