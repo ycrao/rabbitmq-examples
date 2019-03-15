@@ -8,7 +8,7 @@ use PhpAmqpLib\Exchange\AMQPExchangeType;
 $queue1 = "topic_1";
 $exchange = "exTopic";
 $exchangeType = "topic";
-$routingKey1 = "testing.*";
+$matchedRoutingKey1 = "testing.*";
 $consumerTag = "topicConsumer";
 
 $connection = new AMQPStreamConnection(HOST, PORT, USER, PASS, VHOST);
@@ -19,7 +19,7 @@ $channel->queue_declare($queue1, false, true, false, false);
 
 $channel->exchange_declare($exchange, $exchangeType, false, true, false);
 
-$channel->queue_bind($queue1, $exchange, $routingKey1);
+$channel->queue_bind($queue1, $exchange, $matchedRoutingKey1);
 
 
 
