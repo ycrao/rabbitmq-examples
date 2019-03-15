@@ -37,11 +37,11 @@ apt-get install -y rabbitmq-server
 
 2. `Virtual Host` : 其实是一个虚拟概念，类似于权限控制组，一个 `Virtual Host` 里面可以有若干个 `Exchange` 和 `Queue` ，但是权限控制的最小粒度是 `Virtual Host` 。
 
-3. `Exchange` : 接受生产者发送的消息，并根据 `Binding` 规则将消息路由给服务器中的队列。`ExchangeType` 决定了 `Exchange` 路由消息的行为，例如，在 `RabbitMQ` 中，`ExchangeType` 有 `Direct` 、`Fanout` 和 `Topic`三种，不同类型的Exchange路由的行为是不一样的。
+3. `Exchange` : 接受生产者发送的消息，并根据 `Binding` 规则将消息路由给服务器中的队列。`ExchangeType` 决定了 `Exchange` 路由消息的行为，例如，在 `RabbitMQ` 中，`ExchangeType` 有 `Direct` 、`Fanout` 和 `Topic` 等四种，不同类型的 `Exchange` 路由的行为是不一样的。
 
 4. `Message Queue` : 消息队列，用于存储还未被消费者消费的消息。
 
-5. `Message` : 由 `Header` 和 `Body` 组成，`Header` 是由生产者添加的各种属性的 `sender` 是否被持久化、由哪个 `Message Queue` 接受、优先级是多少等。sender传输的 `APP` 数据。
+5. `Message` : 由 `Header` 和 `Body` 组成，`Header` 是由生产者添加的各种属性的集合，包括 `Message` 是否被持久化、由哪个 `Message Queue` 接受、优先级是多少等。而 `Body` 是真正需要传输的应用数据。
 
 6. `Binding` : `Binding` 联系了 `Exchange` 与 `Message Queue` 。`Exchange` 在与多个 `Message Queue` 发生 `Binding` 后会生成一张路由表，路由表中存储着 `Message Queue` 所需消息的限制条件即 `Binding Key` 。当 `Exchange` 收到 `Message` 时会解析其 `Header` 得到 `Routing Key` ，`Exchange` 根据 `Routing Key` 与 `Exchange Type` 将 `Message` 路由到 `Message Queue` 。`Binding Key` 由 `Consumer` 在 `Binding Exchange` 与 `Message Queue` 时指定，而 `Routing Key` 由 `Producer` 发送 `Message` 时指定，两者的匹配方式由 `Exchange Type` 决定。 
 
@@ -145,11 +145,13 @@ php publisher.php
 生产者发送消息到交换机并且要指定路由 `key` ，消费者将队列绑定到交换机时需要指定路由`key` 。
 
 
-#### 主题模式[Topic Mode - 通配符模式]
+#### 主题模式[Topic Mode]
 
-上面的路由模式是根据路由 `key` 进行完整的匹配（完全相等才发送消息），这里的通配符模式通俗的来讲就是模糊匹配。
+有些人称之为通配符模式，上面的路由模式是根据路由 `key` 进行完整的匹配（完全相等才发送消息），这里的通配符模式通俗的来讲就是模糊匹配。
 
 符号 "#" 表示匹配一个或多个词，符号 "*" 表示匹配一个词。
+
+
 
 #### 总结
 
@@ -163,3 +165,4 @@ php publisher.php
 - [RabbitMQ详解（三）------RabbitMQ的五种模式](https://www.cnblogs.com/Alva-mu/p/9535396.html)
 - [rabbitmq官方的六种工作模式](https://blog.csdn.net/qq_33040219/article/details/82383127)
 - [RabbitMQ笔记-Exchange 的几种模式](https://www.jianshu.com/p/19af0f40bbde)
+- [RabbitMQ之RPC实现](https://blog.csdn.net/u013256816/article/details/55218595)
