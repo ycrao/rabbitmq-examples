@@ -1,0 +1,11 @@
+{
+    "name": "ycrao/rabbitmq-examples",
+    "description": "RabbitMQ multi-modes cases for demonstration",
+    "keywords": ["RabbitMQ", "queue", "worker", "examples"],
+    "license": "MIT",
+    "type": "project",
+    "require": {
+        "php": ">=7.1",
+        "php-amqplib/php-amqplib": "^2.8"
+    }
+}
