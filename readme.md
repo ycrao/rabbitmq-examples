@@ -155,7 +155,7 @@ php routing_production_consumer.php
 php producer.php
 ```
 
-#### 主题模式[Topic Mode]
+#### 主题模式[Topic(s) Mode]
 
 有些人称之为通配符模式，上面的路由模式是根据路由 `key` 进行完整的匹配（完全相等才发送消息），此模式是按字符串 `模糊匹配` 发送，接收端同样如此。
 
@@ -174,7 +174,7 @@ php producer.php
 
 #### 总结
 
-`RabbitMQ` 提供了 `6` 种模式，分别是 `Simple`、 `Worker`（或称 `Work Queue`）、 `Publish/Subscribe`、 `Routing`、 `Topics`、`RPC Request/Reply`。本文档详细讲述了前 `5` 种，并给出代码实现和思路（主动拉取模式属于消费端一种模式，不在此列，一般场景下均为推模式），其中 `Publish/Subscribe`、 `Routing` 与 `Topics` 三种模式可以统一归为 `Exchange` 模式，只是创建时交换机的类型不一样，分别是 `fanout`、 `direct` 与 `topic`。
+`RabbitMQ` 提供了 `6` 种模式，分别是 `Simple`、 `Worker`（或称 `Work Queue`）、 `Publish/Subscribe`、 `Routing`、 `Topic(s)`、`RPC Request/Reply`。本文档详细讲述了前 `5` 种，并给出代码实现和思路（主动拉取模式属于消费端一种模式，不在此列，一般场景下均为推模式），其中 `Publish/Subscribe`、 `Routing` 与 `Topics` 三种模式可以统一归为 `Exchange` 模式，只是创建时交换机的类型不一样，分别是 `fanout`、 `direct` 与 `topic`。
 
 ### 参考资源
 
