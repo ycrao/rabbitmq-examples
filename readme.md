@@ -157,11 +157,20 @@ php producer.php
 
 #### 主题模式[Topic Mode]
 
-有些人称之为通配符模式，上面的路由模式是根据路由 `key` 进行完整的匹配（完全相等才发送消息），这里的通配符模式通俗的来讲就是模糊匹配。
+有些人称之为通配符模式，上面的路由模式是根据路由 `key` 进行完整的匹配（完全相等才发送消息），此模式是按字符串 `模糊匹配` 发送，接收端同样如此。
 
 符号 "#" 表示匹配一个或多个词，符号 "*" 表示匹配一个词。
 
+代码示例：参考 `examples/topic` 目录下源码，执行下列命令：
 
+```bash
+#@terminal 1
+php topic_testing_consumer.php
+#@terminal 2
+php topic_production_consumer.php
+#@terminal 3
+php producer.php
+```
 
 #### 总结
 
