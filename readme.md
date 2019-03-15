@@ -142,8 +142,18 @@ php publisher.php
 
 #### 路由模式[Routing Mode]
 
-生产者发送消息到交换机并且要指定路由 `key` ，消费者将队列绑定到交换机时需要指定路由`key` 。
+发送端（生产者）按路由 `key` 发送消息，不同的接受端（消费者）按不同的路由 `key` 接受消息。注意：队列绑定到交换机时需要指定路由`key` 。
 
+代码示例：参考 `examples/routing` 目录下源码，执行下列命令：
+
+```bash
+#@terminal 1
+php routing_testing_consumer.php
+#@terminal 2
+php routing_production_consumer.php
+#@terminal 3
+php producer.php
+```
 
 #### 主题模式[Topic Mode]
 
