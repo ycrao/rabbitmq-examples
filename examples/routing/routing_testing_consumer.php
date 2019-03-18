@@ -3,7 +3,6 @@
 include(__DIR__.'/../config.php');
 
 use PhpAmqpLib\Connection\AMQPStreamConnection;
-use PhpAmqpLib\Exchange\AMQPExchangeType;
 
 $queue1 = "routing_1";
 $exchange = "exRouting";
