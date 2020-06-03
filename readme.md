@@ -45,7 +45,7 @@ apt-get install -y rabbitmq-server
 
 6. `Binding` : `Binding` 联系了 `Exchange` 与 `Message Queue` 。`Exchange` 在与多个 `Message Queue` 发生 `Binding` 后会生成一张路由表，路由表中存储着 `Message Queue` 所需消息的限制条件即 `Binding Key` 。当 `Exchange` 收到 `Message` 时会解析其 `Header` 得到 `Routing Key` ，`Exchange` 根据 `Routing Key` 与 `Exchange Type` 将 `Message` 路由到 `Message Queue` 。`Binding Key` 由 `Consumer` 在 `Binding Exchange` 与 `Message Queue` 时指定，而 `Routing Key` 由 `Producer` 发送 `Message` 时指定，两者的匹配方式由 `Exchange Type` 决定。 
 
-7. `Connection` : 连接，对于 `RabbitMQ` 而言，其实就是一个位于客户端和 `Broker` 之间的TCP连接。
+7. `Connection` : 连接，对于 `RabbitMQ` 而言，其实就是一个位于客户端和 `Broker` 之间的 TCP 连接。
 
 8. `Channel` : 信道，仅仅创建了客户端到 `Broker` 之间的连接后，客户端还是不能发送消息的。需要为每一个 `Connection` 创建 `Channel` ，`AMQP` 协议规定只有通过`Channel` 才能执行 `AMQP` 的命令。一个 `Connection` 可以包含多个 `Channel`。之所以需要 `Channel` ，是因为TCP连接的建立和释放都是十分昂贵的，如果一个客户端每一个线程都需要与 `Broker` 交互，如果每一个线程都建立一个 `TCP` 连接，暂且不考虑 `TCP` 连接是否浪费，就算操作系统也无法承受每秒建立如此多的 `TCP` 连接。`RabbitMQ` 建议客户端线程之间不要共用 `Channel` ，至少要保证共用 `Channel` 的线程发送消息必须是串行的，但是建议尽量共用 `Connection`。
 
@@ -123,7 +123,7 @@ php producer.php
 
 >   特别注意：如果消息发送到没有队列绑定的交换机上，那么消息将丢失。交换机不能存储消息，消息存储在队列中。
 
-在 `RabbitMQ` 中,交换器主要有四种类型: `direct`、 `fanout`、 `topic`, `headers`，这种模式下使用的交换器类型是 `fanout` 。
+在 `RabbitMQ` 中,交换器主要有四种类型: `direct`、 `fanout`、 `topic`、 `headers`，这种模式下使用的交换器类型是 `fanout` 。
 
 应用场景示例:
 
